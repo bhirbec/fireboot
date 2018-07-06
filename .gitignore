@@ -1,0 +1,4 @@
+.firebaserc
+*.sublime*
+
+functions/node_modules
