@@ -25,32 +25,30 @@ $ cd fireboot
 # Setup Firebase
 
 Open the [Firebase Console](https://console.firebase.google.com/) and
-create two projects.
+create two projects (we will use `fireboot` as a generic example):
 
-* Staging platform: we will call it `fireboot-staging`
-* Production platfomr: we will call it `fireboot-prod`
+* `fireboot-staging`
+* `fireboot-prod`
 
 You'll also need to install the [Firebase CLI](https://firebase.google.com/docs/cli/):
 ```
 $ npm install -g firebase-tools
 ```
 
-Now, sign in using your Google account:
+Sign in using your Google account:
 ```
 $ firebase login
 ```
 
-And, initialize the firebase directory on your machine:
+We've already initialize the directory with `firebase init` command so we can
+just set the active project:
+
 ```
-$ firebase init
+$ firebase use firebase-staging
 ```
 
-* Pick up `Database`, `Function` and `Hosting` 
-* Choose your staging project 
-
-Optionaly, you can create aliases for the the `staging` and `prod` platforms 
-by using `firebase use --add`. If you do so, you can switch back and forth 
-between projects with `firebase use`:
+Optionally, you can set aliases by using `firebase use --add` command. We've added
+three aliases: `default`, `staging` and `prod`. 
 
 ```
 user@fireboot:~/fireboot$ firebase use staging
