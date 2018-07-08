@@ -1,4 +1,8 @@
 .firebaserc
 *.sublime*
 
+public/app.bundle.js
 functions/node_modules
+
+src/node_modules
+src/yarn-error.log
