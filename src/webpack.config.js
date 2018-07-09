@@ -1,4 +1,7 @@
 var path = require('path');
+const express = require('express');
+var app = require('../functions/server')
+
 
 module.exports = {
   mode: 'development',
@@ -8,9 +11,10 @@ module.exports = {
     filename: 'app.bundle.js'
   },
   devServer: {
-    contentBase: [
-      path.join(__dirname, "../public"),
-    ],
+    before: function (devApp) {
+      devApp.use(express.static(path.join(__dirname, "../public")))
+      devApp.get('*', app);
+    },
     historyApiFallback: true,
     host: "localhost",
     publicPath: "/",
