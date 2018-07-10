@@ -9,7 +9,7 @@ function renderHTML(req, res, Content) {
     context.Content = Content
     context.asset = req.assetFingerprint
 
-    const layout = loadTemplate('layout.jsx')
+    const layout = loadTemplate('../frontend/layout.js')
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end('<!DOCTYPE html>\n' + layout(context, {html: true}));

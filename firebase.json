@@ -4,11 +4,13 @@
   },
   "functions": {
     "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint"
+      "cp -R src functions",
+      "yarn --cwd $PWD/functions install",
+      "yarn --cwd $PWD/functions/src build"
     ]
   },
   "hosting": {
-    "public": "public",
+    "public": "functions/src/public",
     "rewrites": [
       {"source": "/", "function": "app"}
     ],

@@ -1,19 +1,18 @@
-var path = require('path');
+const path = require('path');
 const express = require('express');
-var app = require('../functions/server')
-
+const app = require('./backend/app')
 
 module.exports = {
   mode: 'development',
-  entry: './index.js',
+  entry: './frontend/index.js',
   output: {
-    path: path.resolve(__dirname, '../public'),
+    path: path.resolve(__dirname, './public'),
     filename: 'app.bundle.js'
   },
   devServer: {
     before: function (devApp) {
-      devApp.use(express.static(path.join(__dirname, "../public")))
-      devApp.get('*', app);
+      devApp.use(express.static('./public'));
+      devApp.use('/', app);
     },
     historyApiFallback: true,
     host: "localhost",
