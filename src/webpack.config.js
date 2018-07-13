@@ -1,17 +1,23 @@
 const path = require('path');
 const app = require('./backend/app')
+const indexHtml = path.join(__dirname, "./frontend", "index.html");
+
 
 module.exports = {
   mode: 'development',
-  entry: './frontend/index.js',
+  entry: [
+    './frontend/index.js',
+    indexHtml
+  ],
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: 'app.bundle.js'
+    filename: 'js/[name].[hash].js'
   },
   devServer: {
-    before: function (devApp) {
-      devApp.use('/', app);
-    },
+    // before: function (devApp) {
+    //   devApp.use('/', app);
+    // },
+    contentBase: path.join(__dirname, './public'),
     historyApiFallback: true,
     host: "localhost",
     publicPath: "/",
@@ -35,19 +41,52 @@ module.exports = {
       }, {
         test: /\.css$/,
         use: [
-          {loader: "style-loader"},
-          {loader: "css-loader"}
+          {
+            loader: 'file-loader',
+            options: {
+              useRelativePath: true,
+              outputPath: path.join(__dirname, './public/images')
+            }
+          },
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "css-loader"
+          },
         ]
       }, {
         test: /\.(gif|png|jpe?g|svg)$/i,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            emitFile: true,
-            useRelativePath: true,
-            outputPath: path.join(__dirname, './public/images')
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              useRelativePath: true,
+              outputPath: path.join(__dirname, './public/images')
+            }
           }
-        }],
+        ],
+      },
+      {
+        test: indexHtml,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+                name: "[name].[ext]",
+            }
+          },
+          {
+            loader: "extract-loader",
+          },
+          {
+            loader: "html-loader",
+            options: {
+              attrs: ["img:src", "link:href"],
+              interpolate: true,
+            },
+          },
+        ],
       }
     ]
   }
