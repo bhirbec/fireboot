@@ -1,5 +1,4 @@
 const path = require('path');
-const express = require('express');
 const app = require('./backend/app')
 
 module.exports = {
@@ -11,7 +10,6 @@ module.exports = {
   },
   devServer: {
     before: function (devApp) {
-      devApp.use(express.static('./public'));
       devApp.use('/', app);
     },
     historyApiFallback: true,
