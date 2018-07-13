@@ -34,12 +34,22 @@ module.exports = {
             presets: ['es2015', 'react']
           }
         }
-      },
-      {
+      }, {
         test: /\.css$/,
-        use: {
-          loader: "style-loader!css-loader"
-        }
+        use: [
+          {loader: "style-loader"},
+          {loader: "css-loader"}
+        ]
+      }, {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            emitFile: true,
+            useRelativePath: true,
+            outputPath: path.join(__dirname, './public/images')
+          }
+        }],
       }
     ]
   }
