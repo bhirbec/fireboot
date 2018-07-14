@@ -43,12 +43,13 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
+              publicPath: '/css',
               useRelativePath: true,
-              outputPath: path.join(__dirname, './public/images')
+              name: '[name].[hash].[ext]',
             }
           },
           {
-            loader: "style-loader"
+            loader: "extract-loader",
           },
           {
             loader: "css-loader"
@@ -63,7 +64,7 @@ module.exports = {
             options: {
               publicPath: '/images',
               useRelativePath: true,
-              outputPath: path.join(__dirname, './public/images')
+              name: '[name].[hash].[ext]',
             }
           }
         ],
