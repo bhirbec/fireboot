@@ -1,7 +1,8 @@
 const path = require('path');
-const app = require('./backend/app')
-const indexHtml = path.join(__dirname, "./frontend", "index.html");
 
+const timestamp = new Date().getTime();
+const publicDir = path.join(__dirname, './public');
+const indexHtml = path.join(__dirname, "./frontend/index.html");
 
 module.exports = {
   mode: 'development',
@@ -11,13 +12,10 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: 'js/[name].[hash].js'
+    filename: `js/[name].${timestamp}.js`
   },
   devServer: {
-    // before: function (devApp) {
-    //   devApp.use('/', app);
-    // },
-    contentBase: path.join(__dirname, './public'),
+    contentBase: publicDir,
     historyApiFallback: true,
     host: "localhost",
     publicPath: "/",
@@ -38,7 +36,8 @@ module.exports = {
             presets: ['es2015', 'react']
           }
         }
-      }, {
+      },
+      {
         test: /\.css$/,
         use: [
           {
@@ -55,12 +54,14 @@ module.exports = {
             loader: "css-loader"
           },
         ]
-      }, {
+      },
+      {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
           {
             loader: 'file-loader',
             options: {
+              publicPath: '/images',
               useRelativePath: true,
               outputPath: path.join(__dirname, './public/images')
             }
@@ -73,7 +74,14 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-                name: "[name].[ext]",
+              name: "[name].[ext]",
+            }
+          },
+          {
+            loader: path.resolve('./loaders/replace-string.js'),
+            options: {
+              search: '<script src="/js/main.js"></script>',
+              replace: `<script src="/js/main.${timestamp}.js"></script>`,
             }
           },
           {

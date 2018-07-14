@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "webpack-dev-server --open --config webpack.config.js"
+    "clean": "find ./public/* -not -name '404.html' -print0 | xargs -0 rm -rf --",
+    "build": "yarn clean && webpack",
+    "dev": "yarn clean && webpack-dev-server --open --config webpack.config.js"
   },
   "author": "bhirbec@gmail.com",
   "license": "",
