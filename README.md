@@ -1,21 +1,17 @@
 # Introduction
 
-This project provides a base repository that can be forked to quickly bootstrap a web-based software. It is built on top of [Firebase](https://firebase.google.com/) and [React](https://reactjs.org/). 
+This project provides an initial "seed" to build a web application. It includes
+packaged solutions for the following:
 
-Our philosophy is to use 3rd-party providers as much as possible so you can focus on building your features. For instance, we use:
+* Website hosting ([Firebase](https://firebase.google.com/))
+* Realtime Database ([Firebase](https://firebase.google.com/))
+* User Authentication ([Firebase](https://firebase.google.com/))
+* Search Engine ([Algolia](https://www.algolia.com/))
+* Email sending ([Mailgun](https://www.mailgun.com/))
+* Dev Environment ([webpack](https://webpack.js.org/))
+* Basic UI ([React](https://reactjs.org/))
 
-* [Firebase](https://firebase.google.com/): 
-  * Realtime database
-  * Cloud storage
-  * Hosting 
-  * User Authentication (with password reset)
-* [Algolia](https://www.algolia.com/) for Full-text search 
-* [Mailgun](https://www.mailgun.com/) to send emails 
-
-This project is 100% JavaScript. The main reason being the great support of this language 
-for all the providers we use. 
-
-To get started, please clone `fireboot` repository :
+The codebase is mostly JavaScript. To get started, clone `fireboot` repository :
 
 ```
 $ git clone https://github.com/bhirbec/fireboot.git
@@ -25,7 +21,7 @@ $ cd fireboot
 # Setup Firebase
 
 Open the [Firebase Console](https://console.firebase.google.com/) and
-create two projects (we will use `fireboot` as a generic example):
+create two projects (we will use `fireboot` as a generic project name):
 
 * `fireboot-staging`
 * `fireboot-prod`
@@ -40,7 +36,7 @@ Sign in using your Google account:
 $ firebase login
 ```
 
-We've already initialize the directory with `firebase init` command so we can
+We've already initialized the directory with `firebase init` command so we can
 just set the active project:
 
 ```
