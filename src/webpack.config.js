@@ -2,7 +2,7 @@ const path = require('path');
 
 const timestamp = new Date().getTime();
 const publicDir = path.join(__dirname, './public');
-const indexHtml = path.join(__dirname, "./frontend/index.html");
+const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/index.html");
 
 module.exports = {
   mode: 'development',
@@ -43,9 +43,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              publicPath: '/css',
-              useRelativePath: true,
-              name: '[name].[hash].[ext]',
+              publicPath: '/',
+              name: 'css/[name].[hash].[ext]',
             }
           },
           {
@@ -62,12 +61,35 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              publicPath: '/images',
-              useRelativePath: true,
-              name: '[name].[hash].[ext]',
+              publicPath: '/',
+              name: 'images/[name].[hash].[ext]',
             }
           }
         ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              publicPath: '/',
+              name: 'fonts/[name].[hash].[ext]',
+            }
+          }
+        ]
+      },
+      {
+        test: /\.min\.js$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              publicPath: '/',
+              name: 'js/[name].[hash].[ext]',
+            }
+          }
+        ]
       },
       {
         test: indexHtml,
@@ -91,7 +113,7 @@ module.exports = {
           {
             loader: "html-loader",
             options: {
-              attrs: ["img:src", "link:href"],
+              attrs: ["img:src", "link:href", "script:src"],
               interpolate: true,
             },
           },
