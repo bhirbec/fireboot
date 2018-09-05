@@ -1,14 +1,19 @@
 const path = require('path');
 
+const BuildWebsite = require('./plugins/website');
 const timestamp = new Date().getTime();
 const publicDir = path.join(__dirname, './public');
 const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/index.html");
+const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/404.html");
+const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/layout.html");
 
 module.exports = {
   mode: 'development',
   entry: [
     './frontend/index.js',
-    indexHtml
+    indexHtml,
+    notFoundHtml,
+    layoutHtml,
   ],
   output: {
     path: path.resolve(__dirname, './public'),
@@ -24,6 +29,9 @@ module.exports = {
       errors: true
     }
   },
+  plugins: [
+    new BuildWebsite()
+  ],
   module: {
     rules: [
       {
@@ -92,7 +100,7 @@ module.exports = {
         ]
       },
       {
-        test: indexHtml,
+        test: /\.html$/,
         use: [
           {
             loader: "file-loader",
