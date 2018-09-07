@@ -19,23 +19,22 @@ class  BuildWebsite {
 
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
-      const layout = compilation.assets['layout.html'].source().toString('utf8');
+      // map asset name to asset name with hash
       const assets = {};
-
       for (var f in compilation.assets) {
         const arr = f.split('.');
-        const l = arr.length - 1;
-        const h = arr[l-1];
-        arr.splice(-2, 1);
-        const rawFilename = arr.join('.');
-        assets[rawFilename] = f;
+        arr.splice(-2, 1); // remove hash
+        assets[arr.join('.')] = f;
       }
 
-      let $page = cheerio.load(compilation.assets['index.html'].source());
-      compilation.assets['index.html'] = renderAsset(layout, $page, assets)
-
-      $page = cheerio.load(compilation.assets['404.html'].source());
-      compilation.assets['404.html'] = renderAsset(layout, $page, assets);
+      // compile HTML
+      const layout = compilation.assets['layout.html'].source().toString('utf8');
+      for (var f in compilation.assets) {
+        if (f.endsWith('.html') && f !== 'layout.html') {
+          let $page = cheerio.load(compilation.assets[f].source());
+          compilation.assets[f] = renderAsset(layout, $page, assets)
+        }
+      }
 
       callback();
     })
