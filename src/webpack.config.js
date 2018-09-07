@@ -2,9 +2,9 @@ const path = require('path');
 
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
-const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/index.html");
-const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/404.html");
-const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/layout.html");
+const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
+const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
+const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
 
 module.exports = {
   mode: 'development',

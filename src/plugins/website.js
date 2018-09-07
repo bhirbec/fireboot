@@ -14,7 +14,7 @@ class  BuildWebsite {
   - EJS: http://ejs.co/
   */
   constructor(options) {
-    this.options = _.extend({}, options)
+    this.options = _.extend({}, options);
   }
 
   apply(compiler) {
@@ -32,7 +32,7 @@ class  BuildWebsite {
       for (var f in compilation.assets) {
         if (f.endsWith('.html') && f !== 'layout.html') {
           let $page = cheerio.load(compilation.assets[f].source());
-          compilation.assets[f] = renderAsset(layout, $page, assets)
+          compilation.assets[f] = renderAsset(layout, $page, assets);
         }
       }
 
