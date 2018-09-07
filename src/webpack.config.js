@@ -1,7 +1,6 @@
 const path = require('path');
 
 const BuildWebsite = require('./plugins/website');
-const timestamp = new Date().getTime();
 const publicDir = path.join(__dirname, './public');
 const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/index.html");
 const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/404.html");
@@ -9,15 +8,20 @@ const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-p
 
 module.exports = {
   mode: 'development',
-  entry: [
-    './frontend/index.js',
-    indexHtml,
-    notFoundHtml,
-    layoutHtml,
-  ],
+  entry: {
+    'app.bundle.js': './frontend/index.js',
+    '_/index.js': indexHtml,
+    '_/notFound.js': notFoundHtml,
+    '_/layout.js': layoutHtml,
+  },
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: `js/[name].${timestamp}.js`
+    filename: (chunk) => {
+      const arr = chunk.chunk.name.split('.');
+      const l = arr.length - 1;
+      arr.splice(l, 0, chunk.chunk.contentHash.javascript);
+      return arr.join('.');
+    },
   },
   devServer: {
     contentBase: publicDir,
@@ -106,13 +110,6 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-            }
-          },
-          {
-            loader: path.resolve('./loaders/replace-string.js'),
-            options: {
-              search: '<script src="/js/main.js"></script>',
-              replace: `<script src="/js/main.${timestamp}.js"></script>`,
             }
           },
           {

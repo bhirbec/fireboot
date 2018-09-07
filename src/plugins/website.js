@@ -20,34 +20,30 @@ class  BuildWebsite {
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
       const layout = compilation.assets['layout.html'].source().toString('utf8');
-      const hashes = {};
+      const assets = {};
 
-      // this can be improved...
       for (var f in compilation.assets) {
         const arr = f.split('.');
         const l = arr.length - 1;
         const h = arr[l-1];
         arr.splice(-2, 1);
         const rawFilename = arr.join('.');
-        hashes[h] = rawFilename;
-        console.log(h, rawFilename);
+        assets[rawFilename] = f;
       }
 
-      // TODO: loop over html assets
       let $page = cheerio.load(compilation.assets['index.html'].source());
-      compilation.assets['index.html'] = renderAsset(layout, $page)
+      compilation.assets['index.html'] = renderAsset(layout, $page, assets)
 
       $page = cheerio.load(compilation.assets['404.html'].source());
-      compilation.assets['404.html'] = renderAsset(layout, $page);
+      compilation.assets['404.html'] = renderAsset(layout, $page, assets);
 
       callback();
     })
   }
 }
 
-// TODO: pass hashes here so we can render the script tag
-function renderAsset(layout, $page) {
-  const output = ejs.render(layout, {$page: $page});
+function renderAsset(layout, $page, assets) {
+  const output = ejs.render(layout, {'$page': $page, 'assets': assets});
   return {
     source: function() {
       return output;
