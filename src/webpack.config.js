@@ -3,16 +3,18 @@ const path = require('path');
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
 const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
-const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
 const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
+const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
+const signinHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
 
 module.exports = {
   mode: 'development',
   entry: {
     'app.bundle.js': './frontend/index.js',
     '_/index.js': indexHtml,
-    '_/notFound.js': notFoundHtml,
     '_/layout.js': layoutHtml,
+    '_/notFound.js': notFoundHtml,
+    '_/signin.js': signinHtml,
   },
   output: {
     path: path.resolve(__dirname, './public'),

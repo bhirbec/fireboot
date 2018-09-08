@@ -31,8 +31,8 @@ class  BuildWebsite {
       const layout = compilation.assets['layout.html'].source().toString('utf8');
       for (var f in compilation.assets) {
         if (f.endsWith('.html') && f !== 'layout.html') {
-          let $page = cheerio.load(compilation.assets[f].source());
-          compilation.assets[f] = renderAsset(layout, $page, assets);
+          let page = compilation.assets[f].source().toString('utf8');
+          compilation.assets[f] = renderAsset(layout, page, assets);
         }
       }
 
@@ -41,8 +41,9 @@ class  BuildWebsite {
   }
 }
 
-function renderAsset(layout, $page, assets) {
-  const output = ejs.render(layout, {'$page': $page, 'assets': assets});
+function renderAsset(layout, page, assets) {
+  let $page = cheerio.load(ejs.render(page, {'assets': assets}));
+  let output = ejs.render(layout, {'$page': $page, 'assets': assets});
   return {
     source: function() {
       return output;

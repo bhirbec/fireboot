@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 class App extends React.Component {
   render() {
-    return <div className="test-bg-img">
+    return <div>
       Congrats! Setup is completed!
       <img src={require('./images/android-logo.png')} />
     </div>

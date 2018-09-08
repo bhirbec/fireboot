@@ -136,3 +136,16 @@ footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
+/* Fireboot */
+#app {
+  margin-top: 70px;
+  height: 100%;
+  min-height: 100%;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+}
