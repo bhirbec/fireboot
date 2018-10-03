@@ -54,3 +54,19 @@ Now using alias prod (fireboot-prod)
 user@fireboot:~/fireboot$ firebase use default
 Now using alias default (fireboot-staging)
 ```
+
+# Deploy Static Web Site
+
+## Staging
+
+```
+$ firebase use staging
+$ firebase deploy
+```
+
+## Staging
+
+```
+$ firebase use prod
+$ firebase deploy
+```
