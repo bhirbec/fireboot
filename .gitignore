@@ -1,9 +1,9 @@
 .firebaserc
 
 src/yarn-error.log
-src/config
+src/config/
 src/node_modules/
-src/public/app.bundle.js
+src/public/
 
 functions/node_modules/
 functions/src/

@@ -4,9 +4,9 @@
   },
   "functions": {
     "predeploy": [
-      "cp -R src functions",
-      "yarn --cwd $PWD/functions install",
-      "yarn --cwd $PWD/functions/src build"
+      "yarn --cwd src build",
+      "rsync -rv --exclude='node_modules' src functions",
+      "yarn --cwd $PWD/functions install"
     ]
   },
   "hosting": {
