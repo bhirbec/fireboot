@@ -5,20 +5,19 @@ import _ from 'firebase/database';
 
 
 class App extends React.Component {
+  componentDidMount() {
+    firebase.database().ref('/env').once('value').then(snap => {
+      this.setState({env: snap.val()});
+    });
+  }
+
   render() {
-    return <div>
-      Congrats! Setup is completed!
-      <img src={require('./images/android-logo.png')} />
-    </div>
+    return <div>{this.state ? this.state.env : 'Loading...'}</div>;
   }
 }
 
 // Initialize Firebase
 const config = require('../config/web.' + ENV + '.json');
 firebase.initializeApp(config);
-
-firebase.database().ref('/test').on('value', snap => {
-  console.log(snap.val());
-});
 
 ReactDOM.render(<App />, document.getElementById('app'));
