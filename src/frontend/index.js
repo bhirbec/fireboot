@@ -1,5 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import firebase from 'firebase/app';
+import _ from 'firebase/database';
 
 
 class App extends React.Component {
@@ -11,4 +13,12 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'))
+// Initialize Firebase
+const config = require('../config/web.' + ENV + '.json');
+firebase.initializeApp(config);
+
+firebase.database().ref('/test').on('value', snap => {
+  console.log(snap.val());
+});
+
+ReactDOM.render(<App />, document.getElementById('app'));

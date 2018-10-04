@@ -1,16 +1,15 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "description": "Demo for fireboot",
+  "description": "Demo for Fireboot",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "find ./public/* -print0 | xargs -0 rm -rf --",
     "build": "yarn clean && webpack",
-    "dev": "yarn clean && webpack-dev-server --open --config webpack.config.js"
+    "dev": "yarn clean && webpack-dev-server --open --config webpack.config.js --env=staging"
   },
   "author": "bhirbec@gmail.com",
-  "license": "",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -30,6 +29,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "firebase": "^5.5.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-jsx": "^1.0.0",

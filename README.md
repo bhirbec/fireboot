@@ -20,6 +20,8 @@ $ cd fireboot
 
 # Setup Firebase
 
+## Create Your Projects
+
 Open the [Firebase Console](https://console.firebase.google.com/) and
 create two projects (we will use `fireboot` as a generic project name):
 
@@ -54,6 +56,26 @@ Now using alias prod (fireboot-prod)
 user@fireboot:~/fireboot$ firebase use default
 Now using alias default (fireboot-staging)
 ```
+
+## Create Firebase configs
+
+From the Firebase console copy/paste the Staging and Production configurations in the following files:
+- `config/web.prod.json`
+- `config/web.staging.json`
+
+Expected format:
+```
+{
+  "apiKey": "<your-key>",
+  "authDomain": "<your-domain>",
+  "databaseURL": "<your-db-url>",
+  "projectId": "<your-project-id>",
+  "storageBucket": "<your-bucket>",
+  "messagingSenderId": "<your-sender-id>"
+}
+```
+
+For more informations, please read ("Add Firebase to your JavaScript Project")[https://firebase.google.com/docs/web/setup] in Firebase documentation.
 
 # Deploy Static Web Site
 
