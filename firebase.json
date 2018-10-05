@@ -2,13 +2,6 @@
   "database": {
     "rules": "database.rules.json"
   },
-  "functions": {
-    "predeploy": [
-      "yarn --cwd src build",
-      "rsync -rv --exclude='node_modules' src functions",
-      "yarn --cwd $PWD/functions install"
-    ]
-  },
   "hosting": {
     "public": "functions/src/public",
     "rewrites": [

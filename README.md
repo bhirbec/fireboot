@@ -82,13 +82,7 @@ For more informations, please read ("Add Firebase to your JavaScript Project")[h
 ## Staging
 
 ```
-$ firebase use staging
-$ firebase deploy
+$ sh ./deploy.sh
 ```
 
-## Staging
-
-```
-$ firebase use prod
-$ firebase deploy
-```
+You'll be prompted to deploy on 'staging' or 'prod'.

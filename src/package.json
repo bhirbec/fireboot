@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "find ./public/* -print0 | xargs -0 rm -rf --",
-    "build": "sh ./build.sh",
+    "build-staging": "yarn clean && webpack --env=staging",
+    "build-prod": "yarn clean && webpack --env=prod",
     "dev": "yarn clean && webpack-dev-server --open --config webpack.config.js --env=staging"
   },
   "author": "bhirbec@gmail.com",
