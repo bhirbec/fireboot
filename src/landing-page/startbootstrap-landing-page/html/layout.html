@@ -6,19 +6,18 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title><%= $page('title').text() %></title>
+  <%- $page.html('head > title') %>
 
-  <!-- Bootstrap core CSS -->
-  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link href="../vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <!-- CSS + fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="../fonts/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="../css/landing-page.css" rel="stylesheet" type="text/css">
+  <%- $page.html('head > link') %>
 
-  <!-- Custom styles for this template -->
-  <link href="../css/landing-page.css" rel="stylesheet">
-  <style><%- $page('head > style').html() %></style>
+  <!-- JS -->
+  <%- $page.html('head > script') %>
 </head>
 
 <body>
@@ -78,9 +77,5 @@
       </div>
     </div>
   </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="../vendor/jquery/jquery.min.js"></script>
-  <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

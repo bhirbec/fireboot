@@ -9,8 +9,8 @@ fi
 
 # build
 yarn --cwd src build-$env;
-rsync -rv --exclude='node_modules' src functions;
-yarn --cwd functions install;
+# rsync -rv --exclude='node_modules' src functions;
+# yarn --cwd functions install;
 
 # deploy
 firebase use $env;

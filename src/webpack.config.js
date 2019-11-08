@@ -3,10 +3,11 @@ const path = require('path');
 const webpack = require('webpack');
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
-const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
 const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
-const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
+const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
 const signinHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
+const appHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/app.html");
+const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
 
 
 module.exports = (env, argv) => {
@@ -15,11 +16,12 @@ module.exports = (env, argv) => {
   return {
     mode: 'development',
     entry: {
-      'app.bundle.js': './frontend/index.js',
-      '_/index.js': indexHtml,
+      'app.bundle.js': './app/index.js',
       '_/layout.js': layoutHtml,
-      '_/notFound.js': notFoundHtml,
+      '_/index.js': indexHtml,
       '_/signin.js': signinHtml,
+      '_/app.js': appHtml,
+      '_/notFound.js': notFoundHtml,
     },
     output: {
       path: path.resolve(__dirname, './public'),
@@ -41,9 +43,8 @@ module.exports = (env, argv) => {
       }
     },
     plugins: [
-      new BuildWebsite(),
-      new webpack.DefinePlugin({
-        'ENV': JSON.stringify(argv.env || 'staging')
+      new BuildWebsite({
+        firebaseConfig: require(argv['firebase-config']),
       })
     ],
     module: {
@@ -55,7 +56,7 @@ module.exports = (env, argv) => {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
-              presets: ['es2015', 'react']
+              presets: ['env', 'react']
             }
           }
         },

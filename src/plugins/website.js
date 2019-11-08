@@ -13,8 +13,8 @@ class  BuildWebsite {
   - cheerio: https://github.com/cheeriojs/cheerio
   - EJS: http://ejs.co/
   */
-  constructor(options) {
-    this.options = _.extend({}, options);
+  constructor(context) {
+    this.context = _.extend({}, context);
   }
 
   apply(compiler) {
@@ -32,26 +32,30 @@ class  BuildWebsite {
       for (var f in compilation.assets) {
         if (f.endsWith('.html') && f !== 'layout.html') {
           let page = compilation.assets[f].source().toString('utf8');
-          compilation.assets[f] = renderAsset(layout, page, assets);
+          compilation.assets[f] = this.renderAsset(layout, page, assets);
         }
       }
 
       callback();
     })
   }
-}
 
-function renderAsset(layout, page, assets) {
-  let $page = cheerio.load(ejs.render(page, {'assets': assets}));
-  let output = ejs.render(layout, {'$page': $page, 'assets': assets});
-  return {
-    source: function() {
-      return output;
-    },
-    size: function() {
-      return output.length;
-    }
-  };
-}
+  renderAsset(layout, page, assets) {
+    let context = _.extend({}, this.context, {'assets': assets});
+    let $page = cheerio.load(ejs.render(page, context));
+
+    context = _.extend({}, this.context, {'$page': $page, 'assets': assets});
+    let output = ejs.render(layout, context);
+
+    return {
+      source: function() {
+        return output;
+      },
+      size: function() {
+        return output.length;
+      }
+    };
+  }
+};
 
 module.exports = BuildWebsite;

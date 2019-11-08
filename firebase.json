@@ -3,10 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "functions/src/public",
-    "rewrites": [
-      {"source": "/", "function": "app"}
-    ],
+    "public": "src/public",
     "ignore": [
       "firebase.json",
       "**/.*",

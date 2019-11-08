@@ -1,0 +1,8 @@
+<body>
+  <div id="app" class="container"></div>
+  <script src="/<%= assets['app.bundle.js'] %>"></script>
+  <script type="text/javascript">
+    window.startApp(<%- JSON.stringify(firebaseConfig) %>);
+  </script>
+</body>
+
