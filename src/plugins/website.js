@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const ejs = require('ejs');
 
 
-class  BuildWebsite {
+class BuildWebsite {
   /**
   BuildWebsite is a webpack plugins which goals is to simplify
   static websites building.
@@ -32,7 +32,7 @@ class  BuildWebsite {
       for (var f in compilation.assets) {
         if (f.endsWith('.html') && f !== 'layout.html') {
           let page = compilation.assets[f].source().toString('utf8');
-          compilation.assets[f] = this.renderAsset(layout, page, assets);
+          compilation.assets[f] = this.renderAssetWithLayout(layout, page, assets);
         }
       }
 
@@ -40,7 +40,7 @@ class  BuildWebsite {
     })
   }
 
-  renderAsset(layout, page, assets) {
+  renderAssetWithLayout(layout, page, assets) {
     let context = _.extend({}, this.context, {'assets': assets});
     let $page = cheerio.load(ejs.render(page, context));
 
