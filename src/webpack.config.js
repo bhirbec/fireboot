@@ -1,36 +1,57 @@
 const path = require('path');
 
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
 const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
 const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
 const signinHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
-const appHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/app.html");
+const appHtml = path.join(__dirname, "./app/app.html.ejs");
 const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
 
 
-module.exports = (env, argv) => {
+module.exports = [(env, argv) => {
   argv = argv || {};
 
   return {
     mode: 'development',
     entry: {
-      'app.bundle.js': './app/index.js',
       '_/layout.js': layoutHtml,
       '_/index.js': indexHtml,
       '_/signin.js': signinHtml,
-      '_/app.js': appHtml,
       '_/notFound.js': notFoundHtml,
     },
     output: {
       path: path.resolve(__dirname, './public'),
-      filename: (chunk) => {
-        const arr = chunk.chunk.name.split('.');
-        const l = arr.length - 1;
-        arr.splice(l, 0, chunk.chunk.contentHash.javascript);
-        return arr.join('.');
-      },
+    },
+    plugins: [
+      new BuildWebsite({
+        firebaseConfig: require(argv['firebase-config']),
+      })
+    ],
+    module: {
+      rules: [
+        minCSSRule,
+        cssRule,
+        imgRule,
+        fontRule,
+        htmlRule,
+      ]
+    }
+  }
+}, (env, argv) => {
+  argv = argv || {};
+
+  return {
+    mode: 'development',
+    entry: {
+      'app': './app/index.js',
+    },
+    output: {
+      path: path.resolve(__dirname, './public'),
+      filename: 'js/[name].[hash].js',
     },
     devServer: {
       contentBase: publicDir,
@@ -43,9 +64,14 @@ module.exports = (env, argv) => {
       }
     },
     plugins: [
-      new BuildWebsite({
-        firebaseConfig: require(argv['firebase-config']),
-      })
+      new webpack.DefinePlugin({
+        FIREBASE_CONFIG: JSON.stringify(require(argv['firebase-config'])),
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'app.html',
+        template: appHtml,
+        // hash: true,
+      }),
     ],
     module: {
       rules: [
@@ -60,82 +86,91 @@ module.exports = (env, argv) => {
             }
           }
         },
-        {
-          test: /\.css$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                publicPath: '/',
-                name: 'css/[name].[hash].[ext]',
-              }
-            },
-            {
-              loader: "extract-loader",
-            },
-            {
-              loader: "css-loader"
-            },
-          ]
-        },
-        {
-          test: /\.(gif|png|jpe?g|svg)$/i,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                publicPath: '/',
-                name: 'images/[name].[hash].[ext]',
-              }
-            }
-          ],
-        },
-        {
-          test: /\.(woff|woff2|eot|ttf|svg)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                publicPath: '/',
-                name: 'fonts/[name].[hash].[ext]',
-              }
-            }
-          ]
-        },
-        {
-          test: /\.min\.js$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                publicPath: '/',
-                name: 'js/[name].[hash].[ext]',
-              }
-            }
-          ]
-        },
-        {
-          test: /\.html$/,
-          use: [
-            {
-              loader: "file-loader",
-              options: {
-                name: "[name].[ext]",
-              }
-            },
-            {
-              loader: "extract-loader",
-            },
-            {
-              loader: "html-loader",
-              options: {
-                attrs: ["img:src", "link:href", "script:src"],
-                interpolate: true,
-              },
-            },
-          ],
-        }
+        cssRule,
+        imgRule,
+        fontRule,
       ]
     }
   }
+}];
+
+
+const cssRule = {
+  test: /\.css$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        publicPath: '/',
+        name: 'css/[name].[hash].[ext]',
+      }
+    },
+    {
+      loader: "extract-loader",
+    },
+    {
+      loader: "css-loader"
+    },
+  ]
+};
+
+const minCSSRule = {
+  test: /\.min\.js$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        publicPath: '/',
+        name: 'js/[name].[hash].[ext]',
+      }
+    }
+  ]
+};
+
+const htmlRule = {
+  test: /\.html$/,
+  use: [
+    {
+      loader: "file-loader",
+      options: {
+        name: "[name].[ext]",
+      }
+    },
+    {
+      loader: "extract-loader",
+    },
+    {
+      loader: "html-loader",
+      options: {
+        attrs: ["img:src", "link:href", "script:src"],
+        interpolate: true,
+      },
+    },
+  ],
+};
+
+const fontRule = {
+  test: /\.(woff|woff2|eot|ttf|svg)$/,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        publicPath: '/',
+        name: 'fonts/[name].[hash].[ext]',
+      }
+    }
+  ]
+};
+
+const imgRule = {
+  test: /\.(gif|png|jpe?g|svg)$/i,
+  use: [
+    {
+      loader: 'file-loader',
+      options: {
+        publicPath: '/',
+        name: 'images/[name].[hash].[ext]',
+      }
+    }
+  ],
 };

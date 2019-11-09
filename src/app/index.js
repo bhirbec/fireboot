@@ -14,15 +14,18 @@ class App extends React.Component {
 
   render() {
     if (this.state == null) {
-      return 'Loading...';
+      return 'Loading the app now...';
     }
 
-    return <div>User {this.props.user.displayName} logged in on {this.state.env}</div>;
+    return <div>
+      <p>User {this.props.user.displayName} logged in on {this.state.env}</p>
+      <p><a href="/">Home</a></p>
+    </div>;
   }
 }
 
-window.startApp = function(firebaseConfig) {
-  firebase.initializeApp(firebaseConfig);
+(function(config) {
+  firebase.initializeApp(config);
 
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
@@ -31,4 +34,4 @@ window.startApp = function(firebaseConfig) {
       window.location = '/signin.html';
     }
   });
-};
+})(FIREBASE_CONFIG);
