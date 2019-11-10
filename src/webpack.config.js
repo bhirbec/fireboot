@@ -64,12 +64,13 @@ module.exports = [(env, argv) => {
       }
     },
     plugins: [
-      new webpack.DefinePlugin({
-        FIREBASE_CONFIG: JSON.stringify(require(argv['firebase-config'])),
-      }),
       new HtmlWebpackPlugin({
         filename: 'app.html',
         template: appHtml,
+        inject: 'head',
+        templateParameters: {
+          'FIREBASE_CONFIG': require(argv['firebase-config'])
+        }
       }),
     ],
     module: {

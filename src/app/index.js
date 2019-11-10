@@ -5,6 +5,19 @@ import 'firebase/database';
 import 'firebase/auth';
 
 
+window.startApp = firebaseConfig => {
+  firebase.initializeApp(firebaseConfig);
+
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      ReactDOM.render(<App user={user} />, document.getElementById('app'));
+    } else {
+      window.location = '/signin.html';
+    }
+  });
+};
+
+
 class App extends React.Component {
   componentDidMount() {
     firebase.database().ref('/env').once('value').then(snap => {
@@ -23,15 +36,3 @@ class App extends React.Component {
     </div>;
   }
 }
-
-(function(config) {
-  firebase.initializeApp(config);
-
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      ReactDOM.render(<App user={user} />, document.getElementById('app'));
-    } else {
-      window.location = '/signin.html';
-    }
-  });
-})(FIREBASE_CONFIG);
