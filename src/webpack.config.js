@@ -1,13 +1,13 @@
 const path = require('path');
 
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
 const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
 const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
-const signinHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
+const signinHtml = path.resolve(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
 const appHtml = path.join(__dirname, "./app/app.html.ejs");
 const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
 
@@ -18,21 +18,35 @@ module.exports = [(env, argv) => {
   return {
     mode: 'development',
     entry: {
-      '_/layout.js': layoutHtml,
-      '_/index.js': indexHtml,
-      '_/signin.js': signinHtml,
-      '_/notFound.js': notFoundHtml,
+      'app': path.resolve(__dirname, "./landing-page/startbootstrap-landing-page/js/signin.js"),
     },
     output: {
       path: path.resolve(__dirname, './public'),
+      filename: 'js/[name].[hash].js',
     },
     plugins: [
-      new BuildWebsite({
-        firebaseConfig: require(argv['firebase-config']),
-      })
+      new webpack.DefinePlugin({
+        FIREBASE_CONFIG: JSON.stringify(require(argv['firebase-config'])),
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'layout.html',
+        template: layoutHtml,
+        inject: null,
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: indexHtml,
+        inject: null,
+      }),
+      new HtmlWebpackPlugin({
+        filename: 'signin.html',
+        template: signinHtml,
+      }),
+      new BuildWebsite(),
     ],
     module: {
       rules: [
+        babelRule,
         htmlRule,
         cssRule,
         minCSSRule,
@@ -75,17 +89,7 @@ module.exports = [(env, argv) => {
     ],
     module: {
       rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              presets: ['env', 'react']
-            }
-          }
-        },
+        babelRule,
         cssRule,
         imgRule,
         fontRule,
@@ -94,6 +98,18 @@ module.exports = [(env, argv) => {
   }
 }];
 
+
+const babelRule = {
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: {
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true,
+      presets: ['env', 'react']
+    }
+  }
+};
 
 const cssRule = {
   test: /\.css$/,
@@ -130,15 +146,6 @@ const minCSSRule = {
 const htmlRule = {
   test: /\.html$/,
   use: [
-    {
-      loader: "file-loader",
-      options: {
-        name: "[name].[ext]",
-      }
-    },
-    {
-      loader: "extract-loader",
-    },
     {
       loader: "html-loader",
       options: {
