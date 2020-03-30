@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const BuildWebsite = require('./plugins/website');
+const BuildWebsite = require('./landing-page/plugins/website');
 const publicDir = path.join(__dirname, './public');
 const layoutHtml = path.join(__dirname, "./landing-page/html/layout.html");
 const indexHtml = path.join(__dirname, "./landing-page/html/index.html");
