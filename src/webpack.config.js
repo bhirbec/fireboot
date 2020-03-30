@@ -42,6 +42,10 @@ module.exports = [(env, argv) => {
         filename: 'signin.html',
         template: signinHtml,
       }),
+      new HtmlWebpackPlugin({
+        filename: '404.html',
+        template: notFoundHtml,
+      }),
       new BuildWebsite(),
     ],
     module: {

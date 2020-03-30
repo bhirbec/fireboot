@@ -10,7 +10,7 @@
     "build-prod": "yarn clean && webpack --env=prod --firebase-config=./config/firebase.prod.json",
     "dev": "yarn clean && webpack-dev-server --open --config webpack.config.js --env=staging --firebase-config=./config/firebase.staging.json"
   },
-  "author": "bhirbec@gmail.com",
+  "author": "benoit.hirbec@gmail.com",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "7",
