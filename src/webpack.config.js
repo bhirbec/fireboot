@@ -5,11 +5,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const BuildWebsite = require('./plugins/website');
 const publicDir = path.join(__dirname, './public');
-const layoutHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/layout.html");
-const indexHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/index.html");
-const signinHtml = path.resolve(__dirname, "./landing-page/startbootstrap-landing-page/html/signin.html");
+const layoutHtml = path.join(__dirname, "./landing-page/html/layout.html");
+const indexHtml = path.join(__dirname, "./landing-page/html/index.html");
+const signinHtml = path.resolve(__dirname, "./landing-page/html/signin.html");
 const appHtml = path.join(__dirname, "./app/app.html.ejs");
-const notFoundHtml = path.join(__dirname, "./landing-page/startbootstrap-landing-page/html/404.html");
+const notFoundHtml = path.join(__dirname, "./landing-page/html/404.html");
 
 
 module.exports = [(env, argv) => {
@@ -18,7 +18,7 @@ module.exports = [(env, argv) => {
   return {
     mode: 'development',
     entry: {
-      'app': path.resolve(__dirname, "./landing-page/startbootstrap-landing-page/js/signin.js"),
+      'app': path.resolve(__dirname, "./landing-page/js/signin.js"),
     },
     output: {
       path: path.resolve(__dirname, './public'),
